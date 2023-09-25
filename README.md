@@ -46,8 +46,8 @@ DDL > DML
 * NVL2(컬럼, null이 아닐 경우의 값, null일 경우의 값)
 * DECODE(컬럼, null이 아닐 경유의 값, null일 경우의 값)
 
-# * sql 실행 순서
-# * FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY
+## * sql 실행 순서
+### * FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY
 
 ## **06-1_집합연산자**
 * 집합 연산자 UNION(합집합 중복x), UNION ALL(합집합 중복o), INTERSECT(교집합), MINUS(차집합)
