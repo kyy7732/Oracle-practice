@@ -59,3 +59,9 @@ DDL > DML
 
 ## **08_조인해보기**
 * 서로 다른 테이블간에 설정된 관계가 결합하여 1개 이상의 테이블에서 데이터를 조회하기 위해서 사용.
+
+## **11_트랜젝션**
+* SHOW AUTOCOMMIT 오토커밋 활성화 여부확인
+* DDL -> CREATE, ALTER, DROP
+* DROP으로 날린데이터는 롤백이 안된다
+* TCL -> COMMIT, ROLLBACK, SAVEPOINT
