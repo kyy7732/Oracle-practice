@@ -262,6 +262,27 @@ ORDER BY 사원수 DESC;
 */
 SELECT * FROM locations;
 
+SELECT   tbl2.* FROM
+(
+SELECT ROWNUM AS rn, tbl1.* FROM 
+    (
+        SELECT 
+             d.*, loc.street_address, loc.postal_code,
+                NVL((
+                    SELECT
+                        TRUNC(AVG(salary), 0)
+                    FROM employees e
+                    WHERE e.department_id = d.department_id
+                ), 0) 평균급여
+        FROM departments d
+        JOIN locations loc
+        ON d.location_id = loc.location_id
+        ORDER BY department_id DESC
+    ) tbl1
+    ) tbl2
+WHERE rn >= 1 AND rn <= 10;
+
+
 SELECT
     d.*, loc.street_address, loc.postal_code,
     NVL(
@@ -283,8 +304,7 @@ ON d.location_id = loc.location_id;
 ROWNUM을 붙여 1-10 데이터 까지만 출력하세요.
 */
 
-SELECT *
-FROM 
+SELECT * FROM 
 (
     SELECT ROWNUM AS rn, tbl.*
     FROM 
@@ -308,10 +328,26 @@ ORDER BY t.department_id DESC
 )
 WHERE rn >= 1 AND rn <= 10;
 
-
-
-
-
+SELECT * FROM
+(
+SELECT ROWNUM AS rn, tbl.* FROM
+(
+SELECT
+    d.*, loc.street_address, loc.postal_code,
+    NVL(
+        (
+          SELECT
+            TRUNC(AVG(e.salary), 0)
+          FROM employees e
+          WHERE e.department_id = d.department_id
+        ),
+    0) AS 평균연봉
+FROM departments d
+JOIN locations loc
+ON d.location_id = loc.location_id
+ORDER BY department_id DESC
+) tbl)
+WHERE rn >= 1 AND rn <= 10;
 
 
 
