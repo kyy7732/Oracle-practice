@@ -8,7 +8,7 @@ UPDATE와 INSERT를 한 방에 처리.
 없으면 INSERT로 처리해라.
 */
 
-CREATE TABLE emps_it AS (SELECT * FROM employees WHERE 1 = 2);
+CREATE TABLE emps_it AS (SELECT * FROM employees);
 
 INSERT INTO emps_it
     (employee_id, first_name, last_name, email, hire_date, job_id)
@@ -99,7 +99,7 @@ ORDER BY employee_id ASC;
 ROLLBACK;
 
 -- 문1
-CREATE TABLE DEPTS AS
+CREATE TABLE depts AS
 (SELECT department_id, department_name, manager_id, location_id
 FROM departments);
 
@@ -118,14 +118,17 @@ SELECT * FROM depts;
 
 -- 문2
 -- 1
-UPDATE depts SET department_name = 'ITbank'
+UPDATE depts SET department_name = 'IT_bank'
 WHERE department_name = 'IT Support';
 -- 2
 UPDATE depts SET manager_id = 301
 WHERE department_id = 290;
 -- 3
 UPDATE depts 
-SET department_name = 'IT Help' , manager_id = 303, location_id = 1800
+SET 
+    department_name = 'IT Help' ,
+    manager_id = 303,
+    location_id = 1800
 WHERE department_name = 'IT Helpdesk';
 -- 4
 UPDATE depts
@@ -184,11 +187,10 @@ INSERT INTO jobs_it
 VALUES 
     ('NET_DEV', '네트워크개발팀', 5000, 20000);
 INSERT INTO jobs_it
-    (job_id, job_title, min_salary, max_salary)
 VALUES 
     ('SEC_DEV', '보안개발팀', 6000, 19000);
     
--- 3
+-- 3, 4
 MERGE INTO jobs_it a
     USING 
         (SELECT * FROM jobs j
@@ -197,7 +199,6 @@ MERGE INTO jobs_it a
         (a.job_id = b.job_id)
 WHEN MATCHED THEN
     UPDATE SET
-        a.job_title = b.job_title,
         a.min_salary = b.min_salary,
         a.max_salary = b.max_salary
 WHEN NOT MATCHED THEN
