@@ -76,7 +76,6 @@ CREATE OR REPLACE PROCEDURE exex
     (emp_id IN employees.employee_id%TYPE,
     emp_hire OUT NUMBER
     )
-    
 IS
     e_cnt NUMBER := 0;
     e_hire employees.hire_date%TYPE;
@@ -103,17 +102,19 @@ BEGIN
     
     emp_hire := TRUNC(MONTHS_BETWEEN(sysdate,e_hire)/12);
     
-     EXCEPTION
-            WHEN OTHERS THEN
-             dbms_output.put_line('예외가 발생했습니다.');
-        RETURN;
+--     EXCEPTION
+--            WHEN OTHERS THEN
+--             dbms_output.put_line('예외가 발생했습니다.');
+--        RETURN;
 END;
 
 DECLARE
     em_hire VARCHAR2(100);
 BEGIN
     exex(5000, em_hire);
-    dbms_output.put_line(em_hire);
+    IF em_hire IS NOT NULL THEN
+    dbms_output.put_line('근속 년수: '|| em_hire || '년');
+    END IF;
 END;
 
 SELECT * FROM employees;
@@ -128,24 +129,24 @@ employee_id, last_name, email, hire_date, job_id를 입력받아
 병합시킬 데이터 -> 프로시저로 전달받은 employee_id를 dual에 select 때려서 비교.
 프로시저가 전달받아야 할 값: 사번, last_name, email, hire_date, job_id
 */
+
 CREATE TABLE emps AS (SELECT * FROM employees);
 DROP TABLE emps;
 
 CREATE OR REPLACE PROCEDURE new_emp_proc
-    (emp_id IN employees.employee_id%TYPE,
-    emp_lname IN employees.last_name%TYPE,
-    emp_email IN employees.email%TYPE,
-    emp_hire IN employees.hire_date%TYPE,
-    emp_job IN employees.job_id%TYPE
+    (emp_id IN emps.employee_id%TYPE, -- 제약 조건 중 IS NOT NULL은 복사가 되지만 다른 제약 조건은 복사가 안된다.
+    emp_lname IN emps.last_name%TYPE,
+    emp_email IN emps.email%TYPE,
+    emp_hire IN emps.hire_date%TYPE,
+    emp_job IN emps.job_id%TYPE
     )
 IS
-
 BEGIN
     MERGE INTO emps a
         USING
         (SELECT emp_id AS employee_id FROM dual) b
     ON
-        (a.employee_id = emp_id)
+        (a.employee_id = b.employee_id) -- 전달받은 사번이 emps에 존재하는 지를 병합 조건으로 물어봄.
 WHEN MATCHED THEN
     UPDATE SET
         a.last_name = emp_lname,
@@ -153,18 +154,17 @@ WHEN MATCHED THEN
         a.hire_date = emp_hire,
         a.job_id = emp_job
 WHEN NOT MATCHED THEN
-    INSERT (employee_id, last_name, email, hire_date, job_id)
+    INSERT (a.employee_id, a.last_name, a.email, a.hire_date, a.job_id)
     VALUES
     (emp_id, emp_lname, emp_email, emp_hire, emp_job);
 END;
 
-
-EXEC new_emp_proc(393, '춘식아', 'chun', '2023-10-04', 'IT');
+EXEC new_emp_proc(393, '춘식이이이', 'chun', sysdate, 'IT');
 
 SELECT * FROM emps;
 
 
-
+SELECT 'sfjks' AS aaa FROM dual;
 
 
 
