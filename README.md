@@ -65,3 +65,23 @@ DDL > DML
 * DDL -> CREATE, ALTER, DROP
 * DROP으로 날린데이터는 롤백이 안된다
 * TCL -> COMMIT, ROLLBACK, SAVEPOINT
+
+## **14_시퀀스_index**
+* 시퀀스 (순차적으로 증가하는 값을 만들어 주는 객체)
+
+## **03_PLSQL조건문**
+* IF문,ELSIF문, 중첩IF
+*  CASE문
+
+## **04_PLSQL반복문 탈출문**
+* WHLIE문, 탈출문(EXIT)
+* FOR문, CONTINUE문
+* 예제문제
+
+## **05_PLSQL프로시저
+* 프로시저(procedure) -> void 메서드 유사
+특정한 로직을 처리하고 결과갑을 반환하지 않는 코드 덩어리
+예외 처리 (EXCEPTION)
+
+## **06_PLSQL프로시저연습
+* merge에 dual활용한 예제
