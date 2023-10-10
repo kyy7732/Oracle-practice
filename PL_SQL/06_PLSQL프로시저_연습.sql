@@ -134,7 +134,7 @@ CREATE TABLE emps AS (SELECT * FROM employees);
 DROP TABLE emps;
 
 CREATE OR REPLACE PROCEDURE new_emp_proc
-    (emp_id IN emps.employee_id%TYPE, -- 제약 조건 중 IS NOT NULL은 복사가 되지만 다른 제약 조건은 복사가 안된다.
+    (emp_id IN emps.employee_id%TYPE, -- 제약 조건 중 IS NULL은 복사가 되지만 다른 제약 조건은 복사가 안된다.
     emp_lname IN emps.last_name%TYPE,
     emp_email IN emps.email%TYPE,
     emp_hire IN emps.hire_date%TYPE,
