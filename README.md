@@ -85,3 +85,13 @@ DDL > DML
 
 ## **06_PLSQL프로시저연습
 * merge에 dual활용한 예제
+
+## **07_트리거**
+* 트리거 정의(INSERT, UPDATE, DELETE 작업이 수행될 때 특정 코드가 작동되도록 하는 구문입니다.)
+
+## **08_트리거after_before**
+* AFTER 트리거 - INSERT, UPDATE, DELETE 작업 **이후**에 동작하는 트리거
+* BEFORE 트리거 - INSERT, UPDATE, DELETE 작업 **이전**에 동작하는 트리거
+* :OLD = 참조 전 열의 값 (INSERT: 입력 전 자료, UPDATE: 수정 전 자료, DELETE: 삭제 될 값)
+* :NEW = 참조 후 열의 값 (INSERT: 입력 할 자료, UPDATE: 수정 된 자료)
+* 예외 발생 시키기(RAISE), RAISE_APPLICATION_ERROR() (오라클에서 제공하는 사용자 정의 예외를 발생시키는 함수);
