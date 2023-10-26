@@ -84,6 +84,29 @@ CREATE TABLE board (
     writer VARCHAR2(20),
     title VARCHAR2(20)
 );
+CREATE TABLE test (
+    test_no NUMBER(10) PRIMARY KEY,
+    col1 VARCHAR2(50),
+    col2 VARCHAR2(50)
+);
+DROP TABLE test;
+DROP SEQUENCE test_seq;
+CREATE SEQUENCE test_seq
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 150
+    MINVALUE 1
+    NOCACHE
+    NOCYCLE;
+BEGIN
+    FOR t_test IN 1..150
+    LOOP
+        INSERT INTO test
+        VALUES(test_seq.nextval, 'test' || t_test , 'title' || t_test);
+    END LOOP;
+    COMMIT;
+END;
+SELECT * FROM test;
 
 CREATE SEQUENCE board_seq
     START WITH 1

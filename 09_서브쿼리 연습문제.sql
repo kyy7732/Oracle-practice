@@ -233,7 +233,8 @@ SELECT
 FROM employees e
 WHERE e.job_id = 'SA_MAN';
 
-
+SELECT * FROM departments
+WHERE departments.department_name LIKE '%ing';
 /*
 문제 14
 --DEPARTMENT테이블에서 각 부서의 ID, NAME, MANAGER_ID와 부서에 속한 인원수를 출력하세요.
@@ -327,6 +328,8 @@ ORDER BY t.department_id DESC
     ) tbl
 )
 WHERE rn >= 1 AND rn <= 10;
+
+
 
 SELECT * FROM
 (

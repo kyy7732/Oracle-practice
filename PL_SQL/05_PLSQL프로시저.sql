@@ -3,6 +3,51 @@
 -- 특정한 로직을 처리하고 결과값을 반환하지 않는 코드 덩어리 (쿼리)
 -- 하지만 프로시저를 통해서 값을 리턴하는 방법도 있습니다.
 
+/*
+employee_id를 전달받아 employees에 존재하면,
+해당사원의 salary를 원화로 out하는 프로시저를 작성하세요.
+(salary는 달러로 치고, 원/달러 환율은 1달러 당 1300원으로 계산하겠습니다.)
+사원이 존재하지 않다면 EXCEPTION 처리하세요.
+(IN, OUT 변수를 사용합니다.)
+*/
+
+CREATE OR REPLACE PROCEDURE emp_salary_proc
+(
+  p_emp_id IN NUMBER,
+  p_sal_out OUT NUMBER
+)
+IS
+  salary_dol NUMBER;
+BEGIN
+
+  SELECT salary INTO salary_dol
+  FROM employees
+  WHERE employee_id = p_emp_id;
+
+
+  EXCEPTION
+    WHEN OTHERS THEN
+      DBMS_OUTPUT.PUT_LINE('사원을 찾을 수 없습니다.');
+      p_sal_out := NULL;
+      RETURN;
+
+  p_sal_out := salary_dol * 1300;
+END;
+
+DECLARE
+  p_emp_id NUMBER := 101;
+  p_salary NUMBER;
+
+BEGIN
+  emp_salary_proc(p_emp_id, p_salary);
+  
+  IF p_salary IS NOT NULL THEN
+    DBMS_OUTPUT.PUT_LINE('사원 월급: ' || p_salary);
+  END IF;
+END;
+
+EXEC emp_salary_proc(101);
+
 
 CREATE PROCEDURE guguproc
     (p_dan IN NUMBER) -- 매개변수
@@ -16,8 +61,7 @@ BEGIN
 END;
 
 EXEC guguproc(14);
-
-
+set serveroutput on
 -- 매개값(인수) 없는 프로시저
 CREATE PROCEDURE p_test
 IS -- 선언부
